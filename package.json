@@ -1,0 +1,21 @@
+{
+  "name": "discord_starter",
+  "version": "1.0.0",
+  "description": "디스코드 봇 스타터 for TypeScript",
+  "main": "main.ts",
+  "scripts": {
+    "start:dev": "NODE_ENV=development ts-node-dev --respawn --transfile-only src/main.ts",
+    "start:build": "NODE_ENV=proudction node build/main.js",
+    "start": "NODE_ENV=production ts-node src/main.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "madoht",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.5.0",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.4"
+  }
+}
