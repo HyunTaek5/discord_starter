@@ -13,7 +13,9 @@
   "author": "madoht",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^13.5.0",
+    "@discordjs/rest": "*",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.5.1",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.4"
