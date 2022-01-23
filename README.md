@@ -2,9 +2,11 @@
 ### Discord Starter with Docker
 
 ## How to Start
-    $ rm -rf .git
+    $ ./setup.sh
 
-### If node version under 16
+## After setup project directory
+
+### If node version under 16 or use docker
     $ docker run -t [image-name]
 
 ### If node version over 16
