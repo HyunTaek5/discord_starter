@@ -3,6 +3,8 @@
 
 ## How to Start
     $ ./setup.sh
+### If zsh:permission error denied occurs
+    $ chmod +x setup.sh
 
 ## After setup project directory
 
