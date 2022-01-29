@@ -7,7 +7,7 @@
     $ chmod +x setup.sh
 
 ## After setup project directory
-
+    $ rm -rf .git
 ### If node version under 16 or use docker
     $ docker run -t [image-name]
 
