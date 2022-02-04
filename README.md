@@ -7,10 +7,9 @@
     $ chmod +x setup.sh
 
 ## After setup project directory
-    $ rm -rf .git
-### If node version under 16 or use docker
+### If node version under 16 or using docker
     $ docker run -t [image-name]
 
 ### If node version over 16
     $ npm i
-    $ npm run start:dev
+    $ npm run start
