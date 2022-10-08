@@ -1,7 +1,7 @@
-import { Client, Intents, PartialTypes } from 'discord.js';
-import { Logger } from '../logger';
-import { Util } from '../util';
-import { Command } from '../util/command/type';
+import { Client, Intents, PartialTypes } from "discord.js";
+import { Logger } from "../logger";
+import { Util } from "../util";
+import { Command } from "../util/command/type";
 
 export default class DiscordFactory extends Client {
   public logger = new Logger();
@@ -17,14 +17,15 @@ export default class DiscordFactory extends Client {
   }
 
   public async init() {
-    this.logger.log('Initializing...');
+    this.logger.log("Initializing...");
 
     await this.util.loadCommands();
+    await this.util.patchCommands(this.commands);
 
-    this.logger.log('Initialize Done');
+    this.logger.log("Initialize Done");
 
     await this.login(process.env.TOKEN)
-      .then(() => this.logger.log('Connected to Discord Server'))
+      .then(() => this.logger.log("Connected to Discord Server"))
       .catch((err) => this.logger.error(err.message));
   }
 }
