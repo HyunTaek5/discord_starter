@@ -1,13 +1,16 @@
+import { REST } from "@discordjs/rest";
 import { readdirSync } from "fs";
 import { join } from "path";
-import DiscordFactory from "src/common/core";
 import { Command } from "./type";
+import DiscordFactory from "src/common/core";
 
 export class CommandUtil {
   private client: DiscordFactory;
+  private restClient: REST;
 
   constructor(client: DiscordFactory) {
     this.client = client;
+    this.restClient = new REST({ version: "9" }).setToken(process.env.TOKEN);
   }
 
   public async loadCommands(): Promise<void> {
@@ -48,5 +51,29 @@ export class CommandUtil {
     const endTime = performance.now();
 
     this.client.logger.log(`Loading Commands Done in ${endTime - startTIme}ms`);
+  }
+
+  public async patchCommands(commandList: Command[]) {
+    this.client.logger.log("Start adding application (/) commands.");
+    const startTIme = performance.now();
+    try {
+      await this.restClient.put(
+        Routes.applicationGuildCommands(
+          process.env.CLIENT_ID,
+          process.env.GUILD_ID
+        ),
+        { body: commandList }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+
+    const endTime = performance.now();
+
+    this.client.logger.log(
+      `Successfully done adding application (/) commands in ${
+        endTime - startTIme
+      }ms`
+    );
   }
 }
