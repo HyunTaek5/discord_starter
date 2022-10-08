@@ -10,7 +10,7 @@ export class CommandUtil {
 
   constructor(client: DiscordFactory) {
     this.client = client;
-    this.restClient = new REST({ version: "9" }).setToken(process.env.TOKEN);
+    this.restClient = new REST({ version: "10" }).setToken(process.env.TOKEN);
   }
 
   public async loadCommands(): Promise<void> {
@@ -55,7 +55,9 @@ export class CommandUtil {
 
   public async patchCommands(commandList: Command[]) {
     this.client.logger.log("Start adding application (/) commands.");
+
     const startTIme = performance.now();
+
     try {
       await this.restClient.put(
         Routes.applicationGuildCommands(
@@ -65,7 +67,7 @@ export class CommandUtil {
         { body: commandList }
       );
     } catch (error) {
-      console.error(error);
+      this.client.logger.error(error);
     }
 
     const endTime = performance.now();
