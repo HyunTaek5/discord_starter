@@ -31,6 +31,7 @@ export class CommandUtil {
       const command: BaseCommand = await import(filePath);
 
       this.client.commands.push(command.data.toJSON());
+      this.client.commandList.set(command.data.name, command.data.toJSON());
 
       this.client.logger.log(`${file} added successfully`);
     }

@@ -1,4 +1,4 @@
-import { Client, Intents, PartialTypes } from "discord.js";
+import { Client, Collection, PartialTypes } from "discord.js";
 import { Logger } from "../logger";
 import { Util } from "../util";
 
@@ -7,8 +7,9 @@ export default class DiscordFactory extends Client {
 
   public readonly util: Util;
   public commands = [];
+  public commandList = new Collection();
 
-  constructor(intents: Intents[], partials: PartialTypes[]) {
+  constructor(intents: any[], partials: PartialTypes[]) {
     super({
       intents,
       partials,
