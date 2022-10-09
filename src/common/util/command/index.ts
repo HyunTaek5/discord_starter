@@ -1,4 +1,5 @@
 import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types";
 import { readdirSync } from "fs";
 import { join } from "path";
 import { BaseCommand } from "src/common/command";
