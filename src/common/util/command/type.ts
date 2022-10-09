@@ -1,5 +1,5 @@
-import { Message } from 'discord.js';
-import DiscordFactory from 'src/common/core';
+import { Message } from "discord.js";
+import DiscordFactory from "src/common/core";
 
 export interface CommandArgs {
   client: DiscordFactory;
@@ -9,6 +9,5 @@ export interface CommandArgs {
 export interface Command {
   name: string;
   description: string;
-  category?: string;
   execute?: (args: CommandArgs) => Promise<unknown | void> | unknown | void;
 }
