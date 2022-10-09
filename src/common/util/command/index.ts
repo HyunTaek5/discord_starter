@@ -1,7 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { readdirSync } from "fs";
 import { join } from "path";
-import { Command } from "./type";
+import { BaseCommand } from "src/common/command";
 import DiscordFactory from "src/common/core";
 
 export class CommandUtil {
@@ -18,42 +18,30 @@ export class CommandUtil {
 
     const startTIme = performance.now();
 
-    const categories = readdirSync(join(__dirname, "../..", "commands"));
+    const commandsPath = join(__dirname, "commands");
+    const commandFiles = readdirSync(commandsPath).filter((file) =>
+      file.endsWith(".ts")
+    );
 
-    categories.map((category) => {
-      this.client.logger.log(`Loading command category: ${category}`);
+    for (const file of commandFiles) {
+      this.client.logger.log(`${file} Loading Starts`);
 
-      const commandFiles = readdirSync(
-        join(__dirname, "../..", "events/commands", category)
-      );
+      const filePath = join(commandsPath, file);
+      const command: BaseCommand = await import(filePath);
 
-      commandFiles.map(async (commandFile) => {
-        this.client.logger.log(`${commandFile} Loading Start`);
+      this.client.commands.push(command.data.toJSON());
 
-        const command: Command = await import(
-          join(__dirname, "../..", "commands", category, commandFile)
-        );
-        command.category = category;
+      this.client.logger.log(`${file} added successfully`);
+    }
 
-        const commandName: string = command[0];
-
-        this.client.commands.push({
-          name: commandName,
-          description: command.description,
-        });
-
-        this.client.logger.log(`${commandName} added successfully`);
-      });
-
-      this.client.logger.log("All Command Added");
-    });
+    this.client.logger.log("All Commands Added");
 
     const endTime = performance.now();
 
     this.client.logger.log(`Loading Commands Done in ${endTime - startTIme}ms`);
   }
 
-  public async patchCommands(commandList: Command[]) {
+  public async patchCommands(commandList: any[]) {
     this.client.logger.log("Start adding application (/) commands.");
 
     const startTIme = performance.now();
