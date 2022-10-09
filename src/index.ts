@@ -1,20 +1,36 @@
-const { Client, Intents } = require('discord.js');
+import { Intents } from "discord.js";
+import DiscordFactory from "./common/core";
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+async function bootStrap() {
+  const app = new DiscordFactory(
+    [
+      Intents.FLAGS.GUILDS,
+      Intents.FLAGS.GUILD_MESSAGES,
+      Intents.FLAGS.GUILD_INTEGRATIONS,
+      Intents.FLAGS.DIRECT_MESSAGES,
+    ],
+    ["MESSAGE", "CHANNEL"]
+  );
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-});
+  app.init();
 
-client.on('interactionCreate',
-    async (interaction: { isCommand: () => any;
-        commandName: string;
-        reply: (arg0: string) => any; }) => {
+  app.on("interactionCreate", async (interaction) => {
     if (!interaction.isCommand()) return;
 
-    if (interaction.commandName === 'ping') {
-        await interaction.reply('Pong!');
-    }
-});
+    const command: any = app.commandList.get(interaction.commandName);
 
-client.login('token').then(() => console.log('연결되었습니다.') );
+    if (!command) return;
+
+    try {
+      await command.execute(interaction);
+    } catch (error) {
+      app.logger.error(error);
+      interaction.reply({
+        content: "There is some error while executing command!",
+        ephemeral: true,
+      });
+    }
+  });
+}
+
+bootStrap();
